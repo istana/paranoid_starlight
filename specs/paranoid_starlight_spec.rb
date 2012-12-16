@@ -12,11 +12,6 @@ end
 describe ParanoidStarlight::Converters do
   before :all do
     @p = ParanoidStarlight::Converters
-    
-    #class Test
-    #  include ParanoidStarlight::Converters
-    #end
-    #@p= Test.new
   end
   
   describe 'convert_telephone' do
