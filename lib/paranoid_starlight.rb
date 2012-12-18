@@ -128,28 +128,51 @@ module ParanoidStarlight
       end
     end
     
+    def clean_whitespaces(inattr, outattr = '')
+      basic_converter(self, inattr, outattr) do |text|
+        text.to_s.gsub(/\s/, '')
+      end
+    end
+    
     private    
     def basic_converter(obj, inattr, outattr, &code)
-        unless obj.respond_to? inattr.to_sym
-          raise("Attribute #{inattr} does not exist.")
-        end
+      attributes = []
+      
+      # May be only one value, ideally string or symbol
+      outattr = outattr.to_sym
+      
+      
+      if inattr.is_a? Array
+        attributes = inattr
+      elsif obj.respond_to? inattr.to_sym
+        attributes << inattr
+        # hash, array and like haven't got to_sym defined
+        outattr = inattr if outattr.to_s == ''
+      else
+        raise("Attribute #{inattr} does not exist.")
+      end
+      
+      if attributes.size > 1 && outattr.to_s != ''
+        raise("Multiple attributes can be used only without output attribute")
+      end
+      
+      attributes.each do |attribute|
+        outattr = attribute if attributes.size > 1
         
-        outattr = inattr if outattr == ''
-        
-        unless obj.respond_to? outattr.to_sym
+        unless obj.respond_to? outattr
           raise("Attribute #{outattr} does not exist.")
         end
-        
+      
         setter = "#{outattr}=".to_sym
         unless obj.respond_to? setter
           raise("Setter #{setter} does not exist.")
         end
-        
-        to_convert = obj.send(inattr.to_sym)
+      
+        to_convert = obj.send(attribute.to_sym)
         unless to_convert.nil?
           obj.send(setter, code.call(to_convert))
         end
-        
+      end
     end
     
   end # end converters
