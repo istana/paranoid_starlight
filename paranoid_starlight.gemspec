@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency("activemodel", ["~> 3.2"])
   gem.add_dependency("twitter_cldr", ["~> 2.0"])
   gem.add_dependency("fast_gettext", ["~> 0.6"])
-
+  #gem.add_dependency("activerecord", ["~> 3.2"])
   gem.add_development_dependency("rspec")
   gem.required_ruby_version = '>= 1.9.2'
 end
