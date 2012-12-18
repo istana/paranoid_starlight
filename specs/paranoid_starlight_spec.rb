@@ -6,8 +6,9 @@ require 'rspec'
 
 class Fangirl
   include ::ParanoidStarlight::Converters
-  attr_accessor :telephone_from_form, :telephone
+  attr_accessor :telephone
   attr_accessor :text
+  attr_accessor :basic_field, :basic_field_out
 end
 
 describe ParanoidStarlight::Converters do
@@ -56,25 +57,46 @@ describe ParanoidStarlight::Converters do
     
   end
   
+  describe 'template of converter' do
+    before do
+      @test = Fangirl.new
+      @test.basic_field = "Hello world!"
+    
+      def @test.upcase(input, output = '')
+        basic_converter(self, input, output) do |text|
+          text.upcase
+        end
+      end
+    end
+    
+    context 'had one attribute supplied' do
+      it 'should overwrite attribute' do
+        @test.upcase(:basic_field)
+        @test.basic_field.should == "HELLO WORLD!"
+      end
+    end
+    
+    context 'had two attributes supplied' do
+      it 'should put result to second attribute' do
+        @test.upcase(:basic_field, :basic_field_out)
+        @test.basic_field.should == "Hello world!"
+        @test.basic_field_out.should == "HELLO WORLD!"
+      end
+    end
+    
+  end
+  
+  
   describe 'convert_telephone_number (for attributes)' do
     before :each do
       FastGettext.locale = 'sk'      
       @test = Fangirl.new
-      @test.telephone_from_form = '+421 123 456 789'
+      @test.telephone = '+421 123 456 789'
     end
     
-    context 'with two parameters - input and output attribute' do
-      it 'should store result in second parameter' do
-        @test.convert_telephone_number(:telephone_from_form, :telephone)
-        @test.telephone.should == '421123456789'
-      end
-    end
-    
-    context 'with only one parameter' do
-      it 'should convert telephone number and overwrite original' do
-        @test.convert_telephone_number(:telephone_from_form)
-        @test.telephone_from_form.should == '421123456789'
-      end
+    it 'should convert telephone number into international format' do
+      @test.convert_telephone_number(:telephone)
+      @test.telephone.should == '421123456789'
     end
   end
   
