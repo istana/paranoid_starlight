@@ -7,6 +7,7 @@ require 'rspec'
 class Fangirl
   include ::ParanoidStarlight::Converters
   attr_accessor :telephone_from_form, :telephone
+  attr_accessor :text
 end
 
 describe ParanoidStarlight::Converters do
@@ -55,7 +56,7 @@ describe ParanoidStarlight::Converters do
     
   end
   
-  describe 'convert_telephone_number' do
+  describe 'convert_telephone_number (for attributes)' do
     before :each do
       FastGettext.locale = 'sk'      
       @test = Fangirl.new
@@ -75,7 +76,14 @@ describe ParanoidStarlight::Converters do
         @test.telephone_from_form.should == '421123456789'
       end
     end
+  end
   
+  describe 'clean_text (for attributes)' do
+    before { @test = Fangirl.new; @test.text = "  Some  \ttext. \t" }
+    it 'should clean text of unneccessary characters' do
+      @test.clean_text(:text)
+      @test.text.should == "Some text."
+    end
   end
 end
   
