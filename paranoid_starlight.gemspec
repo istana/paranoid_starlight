@@ -8,10 +8,12 @@ Gem::Specification.new do |gem|
   gem.version       = ParanoidStarlight::VERSION
   gem.author       = 'Ivan Stana'
   gem.email         = 'stiipa@centrum.sk'
-  gem.summary       = "Pack of custom validations and converters for ActiveModel"
+  gem.summary       = "Pack of custom validations and converters for ActiveModel. Or standalone."
   gem.description   = <<-EOF
-    Validators for name and email. Converter and validator for
-    telephone number (CZ/SK format). ActiveModel. Specs included.
+    It has validations for email and name (European style).
+    And validation and converter (to international format)
+    of telephone number. (CZ/SK format)
+    Few converters for texts and strings. Specs included.
   EOF
   
   gem.homepage      = "http://github.com/istana/paranoid_starlight"
