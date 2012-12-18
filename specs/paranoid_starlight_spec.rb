@@ -149,7 +149,7 @@ describe 'ParanoidStarlight::Validations' do
           'Ivan Stana', 'Ivan R. Stana', 'Ivan Ronon Stana',
           'Jean Claude Van Damme', 'Jean-Pierre Cassel',
           'Tatyana Sukhotina-Tolstaya',
-          'John R. R. Tolkien'
+          'John R. R. Tolkien', 'I S'
         ].each {
           |name| @name.validate_each(@mock, "name", name)
         }
@@ -158,7 +158,7 @@ describe 'ParanoidStarlight::Validations' do
       it "should validate invalid name" do
         @mock.errors[].should_receive('<<')
         [
-          'J. R. R. Tolkien', 'J.R.R. Tolkien', 'Tolkien'
+          'J. R. R. Tolkien', 'J.R.R. Tolkien', 'Tolkien', ''
         ].each {
           |name| @name.validate_each(@mock, "name", name)
         }
