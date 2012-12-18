@@ -112,24 +112,44 @@ module ParanoidStarlight
     end
   
     def convert_telephone_number(inattr, outattr = '')
-      inattr = inattr.to_s
-      outattr = outattr.to_s
-      
-      if self.respond_to? inattr.to_sym
-        outattr = inattr if outattr == ''
-        raise("Attribute #{outattr} does not exist.") unless self.respond_to? outattr.to_sym
-        setter = "#{outattr}=".to_sym
-        
-        telephone = self.send(inattr.to_sym)
-
-        num = ::ParanoidStarlight::Converters.convert_telephone(telephone, 
-          TwitterCldr::Shared::PhoneCodes.code_for_territory(FastGettext.locale.to_sym)
+      basic_converter(self, inattr, outattr) do |telephone|
+        ::ParanoidStarlight::Converters.convert_telephone(
+          telephone, 
+          TwitterCldr::Shared::PhoneCodes.code_for_territory(
+            FastGettext.locale.to_sym
+          )
         ) rescue nil
-        
-        self.send(setter, num) unless num.nil?
-      else
-        raise("Attribute #{inattr} does not exist.")
       end
+    end
+    
+    def clean_text(inattr, outattr = '')
+      basic_converter(self, inattr, outattr) do |text|
+        text.to_s.strip.gsub(/\s{2,}/, ' ')
+      end
+    end
+    
+    private    
+    def basic_converter(obj, inattr, outattr, &code)
+        unless obj.respond_to? inattr.to_sym
+          raise("Attribute #{inattr} does not exist.")
+        end
+        
+        outattr = inattr if outattr == ''
+        
+        unless obj.respond_to? outattr.to_sym
+          raise("Attribute #{outattr} does not exist.")
+        end
+        
+        setter = "#{outattr}=".to_sym
+        unless obj.respond_to? setter
+          raise("Setter #{setter} does not exist.")
+        end
+        
+        to_convert = obj.send(inattr.to_sym)
+        unless to_convert.nil?
+          obj.send(setter, code.call(to_convert))
+        end
+        
     end
     
   end # end converters
