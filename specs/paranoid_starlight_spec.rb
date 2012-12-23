@@ -132,13 +132,26 @@ describe ParanoidStarlight::Converters do
     end
   end
   
-  describe 'clean_text (for attributes)' do
-    before { @test = Fangirl.new; @test.text = "  Some  \ttext. \t" }
-    it 'should clean text of unneccessary characters' do
-      @test.clean_text(:text)
+  describe 'clean_string (for attributes)' do
+    before { @test = Fangirl.new; @test.text = "  Some  \t\ntext.\n \t" }
+    it 'should get words with spaces' do
+      @test.clean_string(:text)
       @test.text.should == "Some text."
     end
   end
+  
+  describe 'remove_whitespaces (for attributes)' do
+    before do
+      @test = Fangirl.new;
+      @test.text = "  Some  \ttext. \t\n\n\n Hello\t\tworld."
+    end
+    
+    it 'should clean text of unwanted characters' do
+      @test.remove_whitespaces(:text)
+      @test.text.should == "Sometext.\n\n\nHelloworld."
+    end
+  end
+  
 end
   
 describe 'ParanoidStarlight::Validations' do

@@ -122,15 +122,16 @@ module ParanoidStarlight
       end
     end
     
-    def clean_text(inattr, outattr = '')
+    def clean_string(inattr, outattr = '')
       basic_converter(self, inattr, outattr) do |text|
-        text.to_s.strip.gsub(/\s{2,}/, ' ')
+        text.to_s.strip.gsub(/\n/, ' ').gsub(/\s+/, ' ')
       end
     end
     
-    def clean_whitespaces(inattr, outattr = '')
+    def remove_whitespaces(inattr, outattr = '')
       basic_converter(self, inattr, outattr) do |text|
-        text.to_s.gsub(/\s/, '')
+        array = text.to_s.strip.split("\n")
+        array.map {|line| line.gsub(/\s/, '')}.join("\n")
       end
     end
     
