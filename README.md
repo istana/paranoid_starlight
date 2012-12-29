@@ -1,10 +1,20 @@
 # ParanoidStarlight
 
-This piece of gem contains some custom validators and converters for ActiveModel.
+This gem is pack of methods to convert or validate
+different formats of strings and texts in model,
+like telephone numbers (CZ/SK format),
+email, or (european) names (currently).
+Or to clean string of too much whitespaces.
 
-It has validations for email and name (European style).
-And validation and converter (to international format) of telephone number. (CZ/SK format)
-Few converters for texts and strings. Specs included.
+It provides *convert* methods for attributes of model
+(getter and setter method in object is enough).
+They are used in save hooks.
+
+There are also *validator* methods for ActiveModel
+nd hook for automatic ActiveRecord integration.
+Just type: (`require 'paranoid_starlight/active_record'`)
+
+Specs included.
 
 ## Installation
 
@@ -12,7 +22,7 @@ Add this line to your application's Gemfile:
 
     gem 'paranoid_starlight'
 
-If you want to have methods available for ActiveRecord models, use:
+If you want to have methods available for `ActiveRecord` models, use:
     
     gem 'paranoid_starlight', :require => 'paranoid_starlight/active_record'
 
@@ -28,7 +38,7 @@ Or install it yourself as:
 
     class MyModel
       include ActiveModel::Validations
-      include ParanoidStarlight::Validations
+      include ParanoidStarlight::Attributes::Validations
       
       attr_accessor :email
       validates_email_format_of :email
@@ -40,6 +50,8 @@ Or install it yourself as:
 
 
 If you required active_record hook, you can use:
+
+    require 'paranoid_starlight/active_record'
 
     class Person < ActiveRecord::Base
       attr_accessible :name, :telephone, :mobile, :email
@@ -63,23 +75,27 @@ If you required active_record hook, you can use:
       end
 
       def process_fields
-        clean_text([:address, :zip])
+        process_string([:address, :zip])
       end
     end
 
 Currently there are these possibilities:
+
+*Validations for ActiveModel*
+
 - validates_email_format_of
 - validates_name_format_of
 - validates_telephone_number_of
 
-- clean_text
-- clean_whitespaces
+*Converters for attributes* (getter and setter methods in object are enough)
+
+- process_string (substitutes one or more whitespaces with space)
 - convert_telephone_number
 
 It is easy to create own converter, just do:
 
     class Kiddie
-      include ::ParanoidStarlight::Converters
+      include ::ParanoidStarlight::Attributes::Converters
       attr_accessor :name
       
       def l33t
@@ -98,8 +114,12 @@ It is easy to create own converter, just do:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Author
-Created by Ivan Stana  
-License: MIT
+## TODO
 
-I encourage to write me something
+Separate email and name validators to own functions, to be independent from ActiveModel validators.
+
+## Author
+Programmed in 2012  
+by Ivan Stana  
+License: MIT  
+

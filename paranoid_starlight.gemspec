@@ -8,12 +8,23 @@ Gem::Specification.new do |gem|
   gem.version       = ParanoidStarlight::VERSION
   gem.author       = 'Ivan Stana'
   gem.email         = 'stiipa@centrum.sk'
-  gem.summary       = "Pack of custom validations and converters for ActiveModel. Or standalone."
+  gem.summary       = "Pack of custom validations and converters for ActiveModel. Also in standalone version."
   gem.description   = <<-EOF
-    It has validations for email and name (European style).
-    And validation and converter (to international format)
-    of telephone number. (CZ/SK format)
-    Few converters for texts and strings. Specs included.
+    This gem is pack of methods to convert or validate
+    different formats of strings and texts in model,
+    like telephone numbers (CZ/SK format),
+    email, or (european) names (currently).
+    Or to clean string of too much whitespaces.
+
+    It provides *convert* methods for attributes of model
+    (getter and setter method in object is enough).
+    They are used in save hooks.
+
+    There are also *validator* methods for ActiveModel
+    nd hook for automatic ActiveRecord integration.
+    Just type: (`require 'paranoid_starlight/active_record'`)
+
+    Specs included.
   EOF
   
   gem.homepage      = "http://github.com/istana/paranoid_starlight"

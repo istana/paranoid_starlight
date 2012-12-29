@@ -1,3 +1,3 @@
 module ParanoidStarlight
-  VERSION = "1.4.1"
+  VERSION = "2.0"
 end
