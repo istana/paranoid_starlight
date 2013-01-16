@@ -60,7 +60,7 @@ If you required active_record hook, you can use:
       validates_email_format_of :email
       validates_name_format_of :name
       # few different valid formats are allowed
-      validates_telephone_format_of :telephone, :mobile
+      validates_telephone_number_convertibility_of :telephone, :mobile
       # or validates :email, :email => true
 
       before_save :convert_fields

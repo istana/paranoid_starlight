@@ -14,7 +14,12 @@ module ParanoidStarlight
       def validates_name_format_of(*attr_names)
         validates_with ::ParanoidStarlight::Validators::NameValidator, _merge_attributes(attr_names)
       end
-    
+      
+      def validates_telephone_number_convertibility_of(*attr_names)
+        validates_with ::ParanoidStarlight::Validators::TelephoneValidator, _merge_attributes(attr_names)
+      end
+      
+      # will be deprecated or reworked
       def validates_telephone_number_of(*attr_names)
         validates_with ::ParanoidStarlight::Validators::TelephoneValidator, _merge_attributes(attr_names)
       end

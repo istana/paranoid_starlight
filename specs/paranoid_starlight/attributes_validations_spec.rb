@@ -22,7 +22,10 @@ end
 
 class TestTelephone < WithValidations
   attr_accessor :telephone
-  validates_telephone_number_of :telephone
+  
+  # will be deprecated or reqorked
+  # validates_telephone_number_of :telephone
+  validates_telephone_number_convertibility_of :telephone
 end
 
 describe ParanoidStarlight::Attributes::Validations do 
