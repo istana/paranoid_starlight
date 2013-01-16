@@ -85,7 +85,7 @@ Currently there are these possibilities:
 
 - validates_email_format_of
 - validates_name_format_of
-- validates_telephone_number_of
+- validates_telephone_number_convertibility_of
 
 *Converters for attributes* (getter and setter methods in object are enough)
 
