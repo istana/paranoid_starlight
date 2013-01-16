@@ -1,8 +1,8 @@
 module ParanoidStarlight
   module Converters
     def convert_telephone(num, prefixcc = 421)
-      telephone = num.to_s
-      prefixcc = prefixcc.to_s
+      telephone = num.to_s.dup
+      prefixcc = prefixcc.to_s.dup
       
       # convert logic
       # possible formats, with or without spaces
