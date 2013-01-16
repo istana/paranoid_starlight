@@ -15,7 +15,7 @@
 # Just type: (require 'paranoid_starlight/active_record')
 #
 
-require "paranoid_starlight/version"
+require "./paranoid_starlight/version"
 require 'active_model'
 require 'twitter_cldr'
 require 'fast_gettext'
